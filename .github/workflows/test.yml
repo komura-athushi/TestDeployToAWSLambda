@@ -1,0 +1,16 @@
+name: Test Python Script
+
+on:
+    # ワークフロートリガーは、プルリク発行 or プッシュ時
+    pull_request: 
+        types: opened
+    push:
+
+jobs:
+    test_python_script:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - run:
+                pip --version
