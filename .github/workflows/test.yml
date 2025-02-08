@@ -14,7 +14,7 @@ jobs:
 
             # 実行に必要なpythonライブラリをインストール
             - run:
-                pip -r src/requirements.txt
+                pip install -r src/requirements.txt
             # テスト実行
             - run:
                 python3 src/lambda_function.py ${{ secrets.SLACK_WEBHOOK }}
