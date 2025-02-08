@@ -13,10 +13,11 @@ ce_client = boto3.client('ce')
 today = datetime.datetime.today().date()
 first_day_of_this_month = today.replace(day=1)
 
+import os
+slack_webhook = os.environ['SLACK_WEBHOOK']
 
 
-
-def lambda_handler(event, context, slack_webhook):
+def lambda_handler(event, context):
 
 
     cost_and_usage_response = ce_client.get_cost_and_usage(
@@ -48,4 +49,4 @@ def lambda_handler(event, context, slack_webhook):
 if __name__ == '__main__':
     import sys
     args = sys.argv
-    lambda_handler('','',args[1])
+    lambda_handler('','')
