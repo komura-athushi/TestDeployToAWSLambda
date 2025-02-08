@@ -1,7 +1,7 @@
 name: Test Python Script
 
 on:
-    # ワークフロートリガーは、プルリク発行 or プッシュ時
+    # ワークフロートリガーは、プルリク発行 ot headブランチ変更時
     pull_request: 
         types: [opened , synchronize, reopened]
 
