@@ -30,7 +30,6 @@ jobs:
               run: |
                   cd src
                   zip -r lambda_function.zip .
-              working-directory: src
 
             # AWS Lambdaへのデプロイ
             - name: Deploy to AWS Lambda
