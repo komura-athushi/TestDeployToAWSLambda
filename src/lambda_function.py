@@ -37,7 +37,7 @@ def lambda_handler(event, context):
     }
     body = json.dumps({
         'channel': '#講義_khrisさん',
-        'text': f'本日のAWSの料金は{total_cost}$です。'
+        'text': f'本日のAWSの料金は{total_cost}$ですです。'
     })
     conn.request('POST', f'{slack_webhook}', body, headers)
     slack_response = conn.getresponse()
