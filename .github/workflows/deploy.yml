@@ -1,0 +1,43 @@
+
+# AWS Lambdaへのデプロイを行うワークフロー
+name: Deploy to AWS Lambda
+
+
+on:
+    pull_request:
+        types: closed
+        branches:
+            - main
+    workflow_dispatch:
+
+jobs:
+    deploy_to_aws_lambda:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            # configure-aws-credentials actionを使ってAWSの認証情報を設定
+            - name: Configure AWS Credentials
+              uses: aws-actions/configure-aws-credentials@v4
+              with:
+                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  aws-region: ${{ vars.AWS_REGION }}
+
+            
+            # AWS Lambdaへのデプロイ用にzipファイルを作成
+            - name: Create zip file
+              run: |
+                  cd src
+                  zip -r lambda_function.zip .
+              working-directory: src
+
+            # AWS Lambdaへのデプロイ
+            - name: Deploy to AWS Lambda
+              run: |
+                  aws lambda update-function-code \
+                      --function-name ${{ vars.AWS_LAMBDA_FUNCTION_NAME }} \
+                      --zip-file fileb://src/lambda_function.zip
+              env:
+                  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
