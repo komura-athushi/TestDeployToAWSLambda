@@ -16,7 +16,7 @@ first_day_of_this_month = today.replace(day=1)
 
 
 
-def lambda_handler(event, context):
+def lambda_handler(event, context, slack_webhook):
 
 
     cost_and_usage_response = ce_client.get_cost_and_usage(
@@ -38,7 +38,7 @@ def lambda_handler(event, context):
         'channel': '#講義_khrisさん',
         'text': f'本日のAWSの料金は{total_cost}$です。'
     })
-    conn.request('POST', '/services/T08BD851HLH/B08BDBGP8LC/ZsIqTE2IOz3Smx3dIQ05F6On', body, headers)
+    conn.request('POST', f'{slack_webhook}', body, headers)
     slack_response = conn.getresponse()
     conn.close()
 
@@ -46,4 +46,6 @@ def lambda_handler(event, context):
 
 
 if __name__ == '__main__':
-    lambda_handler('','')
+    import sys
+    args = sys.argv
+    lambda_handler('','',args[1])
